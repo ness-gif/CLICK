@@ -1,0 +1,232 @@
+* {
+	user-select: none;
+	cursor: default;
+	margin: 0;
+	font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+}
+
+:root {
+	font-size: 1.25vw;
+}
+
+:root::-webkit-scrollbar {
+	display: none;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	overflow-x: hidden;
+}
+
+div.screen {
+	width: calc(100vw - 2rem);
+	margin: 1rem;
+	aspect-ratio: 5 / 2;
+	display: grid;
+	grid-template:
+		"number number" calc(5vw + .5rem)
+		"widgets click" 1fr
+		/ calc(50vw - 1rem) calc(50vw - 1rem);
+	gap: .5rem 1rem;
+	.number.area {
+		width: calc(100vw - 2rem);
+		grid-area: number;
+		text-align: center;
+		font-size: 3.2vw;
+		overflow-x: auto;
+		overflow-y: hidden;
+	}
+	.widgets.area {
+		grid-area: widgets;
+		.widget {
+			width: calc(100% - 2rem);
+			height: calc(100% - 2rem);
+			padding: 1rem;
+			background-color: rgba(0, 146, 255, .1);
+			border-radius: .5rem;
+			display: grid;
+			grid-template:
+				"total_click digit" max-content
+				"cps max_cps" max-content
+				"npc npc" max-content
+				"nps nps" max-content
+				/ 1fr 1fr
+			;
+			gap: .5rem 1rem;
+			.block {
+				width: auto;
+				.label {
+					width: max-content;
+					background-color: rgba(0, 146, 255, 0.75);
+					color: white;
+					border-radius: .25rem;
+					padding-inline: .5rem;
+					font-size: 1.25vw;
+				}
+				.value {
+					width: calc(100% - 1rem);
+					background-color: white;
+					border-radius: .25rem;
+					padding-inline: .5rem;
+					margin-top: .25rem;
+					overflow: auto;
+					font-size: 1.25vw;
+				}
+			}
+			.total_click {
+				grid-area: total_click;
+			}
+			.digit {
+				grid-area: digit;
+			}
+			.cps {
+				grid-area: cps;
+			}
+			.max_cps {
+				grid-area: max_cps;
+			}
+			.nps {
+				grid-area: nps;
+			}
+			.npc {
+				grid-area: npc;
+			}
+		}
+	}
+	.click.area {
+		grid-area: click;
+		display: grid;
+		grid-template-rows: 80%;
+		grid-template-columns: auto;
+		justify-content: center;
+		align-content: center;
+		.click {
+			width: 100%;
+			font-size: 5vw;
+			aspect-ratio: 1 / 1;
+			border-radius: .5rem;
+			background-color: #0092ff;
+			color: white;
+			text-align: center;
+			display: grid;
+			align-items: center;
+			justify-content: center;
+			scale: 1;
+			transition: scale .1s 0s ease;
+		}
+		.click:active {
+			scale: .95;
+			transition: scale .1s 0s ease;
+		}
+	}
+}
+
+div.buttons {
+	width: calc(100vw - 2rem);
+	margin: 1rem;
+	display: grid;
+	gap: 1rem .75rem;
+	grid-template-columns:
+		repeat(auto-fit, minmax(300px, 1fr))
+	;
+	.button {
+		aspect-ratio: 8 / 5;
+		border-radius: .5rem;
+		background-color: rgba(30, 201, 255, 1);
+		box-shadow: 2px 4px 8px rgba(0, 0, 0, .1);
+		scale: 1;
+		transition: scale .1s 0s ease;
+		overflow: hidden;
+		position: relative;
+		.lock.message {
+			z-index: 1;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(64, 64, 64, .8);
+			backdrop-filter: blur(4px);
+			color: white;
+		text-align: center;
+		opacity: 1;
+			transition: opacity 1s 0s ease;
+			display: grid;
+			justify-content: center;
+			align-content: center;
+			.locked {
+				font-size: 3rem;
+			}
+			.terms {
+				font-size: 1.5rem;
+			}
+			.terms::before {
+				content: "Unlock from ";
+			}
+		}
+		.unlock.message {
+			.work {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				translate: -50% -50%;
+				color: white;
+				font-size: 8rem;
+			}
+			.work::before {
+				content: attr(data-before);
+			}
+			.work::after {
+				content: attr(data-after);
+			}
+		}
+		.svg {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(128, 128, 128, 1);
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -2;
+			.circle {
+				fill:rgba(0, 0, 0, 0);
+				stroke: rgba(0, 171, 225, 1);
+				stroke-width: 64;
+				stroke-dasharray: 0, 201.06;
+				stroke-dashoffset: 50.4;
+				animation: none;
+			}
+		}
+		.back {
+			width: 100%;
+			height: 100%;
+			background-color: rgba(30, 201, 255, 1);
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -1;
+		}
+	}
+	.button.unlocked {
+		background-color: rgba(128, 128, 128, 1);
+		.lock.message {
+			opacity: 0;
+			transition: opacity 1s 0s ease;
+		}
+	}
+	.button.unlocked.clicked {
+		scale: .98;
+		transition: scale .1s 0s ease;
+	}
+	.button.unlocked.enable {
+	background-color: rgba(30, 201, 255, 1);
+	}
+	.button:empty {
+	display: none;
+	}
+}
+
+@keyframes pie {
+	100% {stroke-dasharray: 201.06, 0}
+}
